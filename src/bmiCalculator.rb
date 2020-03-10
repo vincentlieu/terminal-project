@@ -14,10 +14,6 @@
 require "tty-prompt"
 require "colorize"
 
-def prompt()
-    prompt = TTY::Prompt.new
-end
-
 weight_description = {
     "Underweight" => "you should eat more",
     "Healthy" => "keep it up!",
@@ -28,7 +24,11 @@ weight_description = {
     }
 
 
-    def welcome_msg()
+    def prompt()
+    prompt = TTY::Prompt.new
+end
+    
+def welcome_msg()
     welcoming_msg = [
     "Body Mass Index (BMI) calculator".colorize(:red),
     "", 
@@ -45,18 +45,35 @@ def questionaire(question)
     return gets.chomp()
 end
 
+def pounds_to_kg(i_weight)
+    weight = (i_weight / 2.205).round(2)
+    return weight
+    # p "#{total} metres"
+    # return weight & height
+end
+
+def ft_inch_to_m(i_height)
+    arr = i_height.split("'")
+    feet = arr[0].to_f
+    inches = arr[1].to_f
+    height = ((feet / 3.281) + (inches / 39.37)).round(2)
+    return height
+end
+
 def bmi_calculation(weight, height, selected_conversion)
-    if selected_conversion == "Imperial"
-        bmi_result = (703 * weight) / ((height*12)**2)
-        return bmi_result.round(2)
-    else
-        bmi_result = (weight / (height**2))
-        return bmi_result.round(2)
-    end
+    bmi_result = weight / (height**2)
+    return bmi_result.round(2)
+    # if selected_conversion == "Imperial"
+    #     bmi_result = (703 * weight) / ((height*12)**2)
+    #     return bmi_result.round(2)
+    # else
+        # bmi_result = (weight / (height**2))
+        # return bmi_result.round(2)
+    # end
 end
 
 def select_conversion_type()
-    conversion_type = prompt.select("Choose your unit of conversion", %w(Imperial Metric))
+    conversion_type = prompt.select("Choose your unit of conversion:", %w(Imperial Metric))
     return conversion_type
 end
 
@@ -79,18 +96,20 @@ end
 puts welcome_msg()
 name = questionaire("What's your name?: ")
 
-play_again = true
+replay = true
 
-while play_again == true
+while replay == true
 
 selected_conversion = select_conversion_type()
 
     if selected_conversion == "Imperial"
-        weight = questionaire("What's your weight (pounds): ").to_f
-        height = questionaire("What's your height (feets): ").to_f
+        i_weight = questionaire("Enter your weight in pounds (lbs): ").to_f
+        i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
+        weight = pounds_to_kg(i_weight)
+        height = ft_inch_to_m(i_height)
     else
-        weight = questionaire("What's your weight in kg: ").to_f
-        height = questionaire("What's your height in metres: ").to_f
+        weight = questionaire("What's your weight in kilograms (kg): ").to_f
+        height = questionaire("What's your height in metres (m): ").to_f
     end
 
 bmi_result = bmi_calculation(weight, height, selected_conversion)
@@ -103,16 +122,14 @@ for key in keys
     end
 end
 
-
-
 puts "Your BMI result is: #{bmi_result} and you are classed as #{bmi_category}, #{advise}"
 
 calc_again = prompt.yes?('Would you like to re-calculate again?')
 
 if calc_again == true
-    play_again = true
+    replay = true
 else
-    play_again = false
+    replay = false
 end
 
 end
