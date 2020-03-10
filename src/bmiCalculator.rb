@@ -33,16 +33,40 @@ def questionaire(question)
     return gets.chomp()
 end
 
-def bmi_calculation(weight, height)
-    bmi_result = weight / height**2
-    return bmi_result.to_s
+def bmi_calculation(weight, height, selected_conversion)
+    if selected_conversion == "Imperial"
+        bmi_result = (703 * weight) / (height**2)
+        return bmi_result.to_s
+    else
+        bmi_result = (weight / (height**2))
+        return bmi_result.to_s
+    end
+end
+
+def select_conversion_type()
+    conversion_type = prompt.select("Choose your unit of conversion", %w(Imperial Metric))
+    return conversion_type
 end
 
 puts welcome_msg()
 name = questionaire("What's your name?: ")
-weight = questionaire("What's your weight?: ").to_f
-height = questionaire("What's your height?: ").to_f
-puts bmi_calculation(weight,height)
+
+selected_conversion = select_conversion_type()
+
+if selected_conversion == "Imperial"
+    weight = questionaire("What's your weight in pounds?: ").to_f
+    height = questionaire("What's your height in feets?: ").to_f
+else
+    weight = questionaire("What's your weight in kg?: ").to_f
+    height = questionaire("What's your height in metres: ").to_f
+end
+
+bmi_result = bmi_calculation(weight, height, selected_conversion)
+puts "Your BMI result is: #{bmi_result}"
+
+
+
+
 
 
 
