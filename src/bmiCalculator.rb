@@ -13,6 +13,9 @@
 
 require "tty-prompt"
 require "colorize"
+require "figlet"
+require "lolcat"
+require "terminal-table"
 
 weight_description = {
     "Underweight" => "This may not be good for your health. There are many benefits of being a healthy weight. Visit your health professional to discuss these.",
@@ -28,17 +31,33 @@ def prompt()
     prompt = TTY::Prompt.new
 end
 
+#Title using Figlet and Lolcat
+def title()
+    system "echo BMI Calculator | figlet -f big.flf | lolcat "
+end
+
 #Introduction - Description of the application
 def welcome_msg()
-    welcoming_msg = [
-    "Body Mass Index (BMI) calculator".colorize(:red),
-    "", 
-    "Description:".colorize(:red),
-    "BMI is a measurement of body fat based on height and weight that applies to men and women aged 18 and above.",
+    welcoming_msg = [ 
+    "DESCRIPTION:".colorize(:red),
+    "Body Mass Index(BMI) is a measurement of body fat based on height and weight that applies to men and women aged 18 and above.",
     "It is a screening tool used to indiciate whether an individual is under weight, heathly, over weight or obese.",
     ""
     ].join("\n") + "\n"
     return welcoming_msg
+end
+
+def display_bmi_table()
+    rows = []
+    rows << ["Underweight", "Less than 18.5"]
+    rows << ["Healthy", "Between 18.5 – 24.9"]
+    rows << ["Overweight", "Between 25–29.9"]
+    rows << ["Obese Class I (Low risk)", "Between 30-34.9"]
+    rows << ["Obese Class II (Moderate risk)", "Between 35.0–39.9"]
+    rows << ["Obese Class III (High risk)", "Above 40"]
+    table = Terminal::Table.new :rows => rows
+    table = Terminal::Table.new :headings => ['Category'.colorize(:red), 'Ranges'.colorize(:red)], :rows => rows
+
 end
 
 #Gather user details
@@ -105,17 +124,19 @@ def result_msg(name, bmi_result, bmi_category, description)
     "",
     "Hi #{name},",
     "", 
-    "RESULT".colorize(:red),
-    "Score: #{bmi_result}",
-    "Category: #{bmi_category}",
-    "Description: #{description}",
+    "RESULTS".colorize(:red),
+    "Score: ".colorize(:red) + "#{bmi_result}",
+    "Category: ".colorize(:red) +"#{bmi_category}",
+    "Description:".colorize(:red),
+    "#{description}",
     ""
     ].join("\n") + "\n"
     return results_msg
 end
 
+title()
 puts welcome_msg()
-
+puts display_bmi_table()
 name = questionaire("What's your name?: ")
 
 replay = true
