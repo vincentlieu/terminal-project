@@ -137,7 +137,12 @@ end
 title()
 puts welcome_msg()
 puts display_bmi_table()
-name = questionaire("What's your name?: ")
+# name = questionaire("What's your name?: ")
+
+name = prompt.ask("What's your name?:") do |q|
+    q.validate(/[a-zA-Z\/]/)
+    q.messages[:valid?] = 'Invalid email address'
+  end
 
 replay = true
 
@@ -146,9 +151,16 @@ while replay == true
 selected_conversion = select_conversion_type()
 
     if selected_conversion == "Imperial"
-        i_weight = questionaire("Enter your weight in pounds(lbs): ").to_f
-        i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
+        i_weight = questionaire("Enter your weight in pounds(lbs): ").to_f 
         weight = pounds_to_kg(i_weight)
+        i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
+        
+        while i_height.include?("'") == false
+            puts "Please enter in the following format (e.g 6'1)".colorize(:red)
+            i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
+        end
+        #Error handle format for feet and inches
+
         height = ft_inch_to_m(i_height)
     else
         weight = questionaire("What's your weight in kilograms(kg): ").to_f
