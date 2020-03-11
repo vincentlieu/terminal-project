@@ -24,7 +24,23 @@ Before using this application, the user will need to have access to a Windows or
 **Once the above steps have been completed the application will return the calculated BMI result, the weight category and description.**
 
 **Feature list:**
-- Accepts user inputs (name, weight, height)
-- Perform Body Mass Index calculation based on user input
-- Displays BMI categories based on caculation to the user
+1. Unit of measurement option:
+A feature of this application is that it allows the flexibility for the user to select their preferred system of measurement either imperial or metric. This allows individuals to input values according to the unit they are familiar with.
+
+*a. Imperial Unit System calculation:*
+The user is given the option to select and enter their preferred unit of measurement under the imperial system. The unit of measure used for this system are as follows:
+**Weight:** Pounds (lbs)
+**Height:** Feet(ft) and Inches(in) 
+
+*b. Metric Unit System calculation:*
+The user is given the option to select and enter their preferred unit for measurement under the metric system. The unit of measurement used for this system are as follows:
+**Weight:** Kilograms (kgs)
+**Height:** Metres (m)
+
+3. Body Mass Index(BMI) calculation:
+This is an essential feature of this application. Once the user has entered their name, selected their preferred system of measurement and has entered in their height and weight. The application will calculate the user's BMI and return a value for the user. This calculation is vital for determining the category that the user is assigned to and determine a course of action which the user may take.
+
+4. Weight Category specification:
+To compliment the BMI score calculated. The application will also provide a table specifying the weight categories from (Underweight to Obese (Catagory III)), their respective BMI ranges, description and advices it to the user. It is necessary to provide this information complimentary to their score so that the user is able to determine their placement within the weight category - whether it be the upper, mid or lower bounds of their weight category, and allows the user to re-calculate the score required for their height to meet a healthy weight category.
+
 
