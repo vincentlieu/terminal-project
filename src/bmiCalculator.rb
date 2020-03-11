@@ -68,7 +68,7 @@ end
 
 #Convert pounds to kilograms
 def pounds_to_kg(i_weight)
-    weight = (i_weight / 2.205).round(2)
+    weight = (i_weight / 2.205)
     return weight
     # p "#{total} metres"
     # return weight & height
@@ -79,7 +79,7 @@ def ft_inch_to_m(i_height)
     arr = i_height.split("'")
     feet = arr[0].to_f
     inches = arr[1].to_f
-    height = ((feet / 3.281) + (inches / 39.37)).round(2)
+    height = ((feet / 3.281) + (inches / 39.37))
     return height
 end
 
@@ -87,13 +87,6 @@ end
 def bmi_calculation(weight, height)
     bmi_result = weight / (height**2)
     return bmi_result.round(2)
-    # if selected_conversion == "Imperial"
-    #     bmi_result = (703 * weight) / ((height*12)**2)
-    #     return bmi_result.round(2)
-    # else
-        # bmi_result = (weight / (height**2))
-        # return bmi_result.round(2)
-    # end
 end
 
 #Display selection list (Imperial/Metric) to user & saves selection
@@ -137,12 +130,11 @@ end
 title()
 puts welcome_msg()
 puts display_bmi_table()
-# name = questionaire("What's your name?: ")
 
 name = prompt.ask("What's your name?:") do |q|
     q.validate(/[a-zA-Z\/]/)
     q.messages[:valid?] = 'Invalid email address'
-  end
+    end
 
 replay = true
 
@@ -153,15 +145,18 @@ selected_conversion = select_conversion_type()
     if selected_conversion == "Imperial"
         i_weight = questionaire("Enter your weight in pounds(lbs): ").to_f 
         weight = pounds_to_kg(i_weight)
-        i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
         
-        while i_height.include?("'") == false
-            puts "Please enter in the following format (e.g 6'1)".colorize(:red)
-            i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
+        i_height = prompt.ask("Enter your height in feet and inches (e.g. 6'1)") do |q|
+            q.validate(/[0-9\/]'[0-9\/]/)
+            q.messages[:valid?] = "Invalid input. Please enter height as feet and inches (e.g. 6'1)"
         end
-        #Error handle format for feet and inches
 
         height = ft_inch_to_m(i_height)
+        #Error handle format for feet and inches
+        # while i_height.include?("'") == false
+        #     puts "Please enter in the following format (e.g 6'1)".colorize(:red)
+        #     i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
+        # end     
     else
         weight = questionaire("What's your weight in kilograms(kg): ").to_f
         height = questionaire("What's your height in metres(m): ").to_f
@@ -171,6 +166,7 @@ bmi_result = bmi_calculation(weight, height)
 bmi_category = weight_category(bmi_result)
 
 keys = weight_description.keys()
+
 for key in keys
     if bmi_category == key
         description = weight_description[key]
@@ -186,7 +182,6 @@ if calc_again == "Recalculate"
 else
     replay = false
 end
-
 end
 
 
