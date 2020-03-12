@@ -146,7 +146,7 @@ selected_conversion = select_conversion_type()
         i_weight = questionaire("Enter your weight in pounds(lbs): ").to_f 
         weight = pounds_to_kg(i_weight)
         
-        i_height = prompt.ask("Enter your height in feet and inches (e.g. 6'1)") do |q|
+        i_height = prompt.ask("Enter your height in feet and inches (e.g. 6'1): ") do |q|
             q.validate(/[0-9\/]'[0-9\/]/)
             q.messages[:valid?] = "Invalid input. Please enter height as feet and inches (e.g. 6'1)"
         end
@@ -158,8 +158,8 @@ selected_conversion = select_conversion_type()
         #     i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
         # end     
     else
-        weight = questionaire("What's your weight in kilograms(kg): ").to_f
-        height = questionaire("What's your height in metres(m): ").to_f
+        weight = questionaire("Enter your weight in kilograms(kg): ").to_f
+        height = questionaire("Enter your height in metres(m): ").to_f
     end
 
 bmi_result = bmi_calculation(weight, height)
