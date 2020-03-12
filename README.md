@@ -26,9 +26,7 @@ The purpose of this application is to provide a risk assessment screening tool t
 
 ---
 
-**Usage**
-
-Before using this application, the user will need to have access to a Windows or Mac computer and have Ruby installed. 
+**Process Flow**
 
 1.  Enter a user's name
 
@@ -41,6 +39,32 @@ Before using this application, the user will need to have access to a Windows or
 **Once the above steps have been completed the application will return the calculated BMI result, the weight category and description.**
 
 5. Prompt user with the options to re-calculate BMI
+
+---
+
+**Interaction with the application**
+
+The two main way a user would interact with this application is through a series of user input and menu selection. The application will guide provide the user on what is required to be performed.
+
+**User Input:**
+
+When the application prompts the user to enter a value; it is required for the user to enter in a value to proceed further into the application. The entered value will then be displayed on the terminal window, confirming the user's input.
+
+For example: Enter your name will require the user to type in their name and also output it on the terminal window. 
+
+**Menu selection:**
+
+When the application prompts the user to select an option; it is required for the user to select an option to drive the flow of the application. The selected value will then be displayed on the terminal window, confirming the user's selection.
+
+For example: Given the option to select either to use the Imperial or Metric system will dictate different series of questions provided to the user. If the user has selected Imperial then the application would ask for values to be entered in pounds and, feet and inches. 
+
+**Error handling:**
+
+An error message will be displayed beneath the user input to indicate to the user that an entered value is invalid and ask the user to re-enter their value. 
+
+For single value fields like - Enter your weight in pounds (lbs) or Enter your height in meters (m); the application will prevent the user from entering alphabets, symbols or a combination either including numeric. (e.g. abcd, @#!, a#1, 1aj should result in an error)
+
+For special cases such as - Enter your height in feet and inches; the application will be expecting the user to enter in value in the following syntax (7'1). The field will validate whether an apostrophe and numbers are included in the string. Otherwise throw an error to indicate to the user that their input is invalid.
 
 ---
 
@@ -72,7 +96,7 @@ Before using this application, the user will need to have access to a Windows or
 ![](/docs/BMI_control_flow_diagram.png)
 
 
-**Project duration:**10/02/2020 - 13/02/2020
+**Project duration:** 10/02/2020 - 13/02/2020
 
 **Project management tool:**
 
@@ -175,4 +199,56 @@ This feature was implemented using an IF and ELSE statement complimented by the 
 1. [x] define a method to initialise TTY-prompt
 2. [x] define a variable to store user selection 
 3. [x] define a method to set the variable to either terminate or continue the loop
+
+---
+
+**Hardware/software requirements:**
+
+In order to use this application; you must have access to a computer running either Windows, Mac OSX, or Ubuntu. 
+
+**Dependencies**
+
+Prior to running the application, please open your preferred terminal application and install the following:
+
+**Colorize:**
+
+```
+gem install colorize
+```
+
+**Terminal Table:**
+
+```
+gem install terminal-table
+```
+
+**TTY-Prompt:**
+
+```
+gem install tty-prompt
+```
+
+**Figlet:**
+
+```
+gem install figlet
+```
+
+**Lolcat**:
+
+```
+gem install lolcat
+```
+
+**Once completed, enter the below command to verify that the above Ruby Gems have been installed.**
+
+```
+gem list
+```
+
+**Install**
+
+1. Clone the repository: https://github.com/vincentlieu/terminal-project.git
+2. Open your preferred terminal application and navigate into the folder /src where the bmiCalculator.rb file resides
+3. Type in the command "ruby bmiCalculator.rb" and press Enter to begin executing the application
 
