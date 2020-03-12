@@ -70,8 +70,6 @@ end
 def pounds_to_kg(i_weight)
     weight = (i_weight / 2.205)
     return weight
-    # p "#{total} metres"
-    # return weight & height
 end
 
 #Convert feet and inches to metres
@@ -158,8 +156,10 @@ selected_conversion = select_conversion_type()
         #     i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
         # end     
     else
-        weight = questionaire("Enter your weight in kilograms(kg): ").to_f
-        height = questionaire("Enter your height in metres(m): ").to_f
+        m_weight = questionaire("Enter your weight in kilograms(kg): ").to_f
+        m_height = questionaire("Enter your height in metres(m): ").to_f
+        weight = m_weight
+        height = m_height
     end
 
 bmi_result = bmi_calculation(weight, height)

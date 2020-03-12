@@ -72,4 +72,62 @@ Before using this application, the user will need to have access to a Windows or
 ![](/docs/BMI_control_flow_diagram.png)
 
 
+**Implementation**
+
+**Unit of measurement option (Selector)**
+
+This feature was implemented through the using IF and ELSE statements complimented by the use of the Ruby gem - TTY-Prompt, which allows the user to select their preferred measurement system - Imperial or Metric, in turn this will drive what unit of measurement is required by the user. <br />When the user selects either Imperial or Metric - it will be stored in a variable conversion_type. Conditioning is then implemented to determine whether the conversion_type matches either Imperial or Metric. <br />If conversion_type == "Imperial" the application will the proceed to prompt the user with their weight in pounds (lbs) and height in feet (ft) and inches(in). Otherwise prompt the user to enter their weight in kilograms (kgs) and metres (m).
+
+1. [x] define a method to initialise TTY-prompt
+2. [x] define a variable to store user selection 
+3. [x] define a method to drive what unit of measurement to prompt the user after selecting conversion type
+4. [x] define a method to store and validate user values for weight using the imperial system
+5. [x] define a method to store and validate user values for height using the imperial system
+6. [x] define a method to store and validate user values for height and weight using metric  system 
+7. [x] define a method to allow the user to enter in a feet and inches (5'1) 
+   *Enhancement: (12/02/20) - to have a better user experience for inputting height*
+
+**Body Mass Index Calculation**
+
+This feature was implemented by creating a method to calculate BMI by passing the variables weight and height. Before calculating the BMI score; if the user has selected the imperial system - there are methods defined to convert pounds to kg and feet and inches to metres. Otherwise pass the entered values for the metric system as the weight and height variable to perform the BMI calculation. 
+
+1. [x] define a method to convert pounds to kilograms
+2. [x] define a unique method to calculate under the imperial system 
+   *Dropped: (12/02/20) - removed two forms of calculation.*
+3. [x] define a method to convert feet and inches to metres
+   *Enhancement: (12/02/20) - convert imperial system to metric system to unify the BMI calculation*
+4. [x] define a unique method to calculate under the metric system 
+   *Modified: (12/02/20) - this is now the only method used to perform the calculation*
+5. [x] define a method to split the syntax of feet and inches into an array and perform calculation 
+   *Enhancement: (12/02/20) - logic built to compliment item 3*
+
+**Convert pounds to kilograms**
+
+```ruby
+def pounds_to_kg(i_weight)
+    weight = (i_weight / 2.205)
+    return weight
+end
+```
+
+**Convert feet and inches to metres**
+
+```ruby
+def ft_inch_to_m(i_height)
+    arr = i_height.split("'")
+    feet = arr[0].to_f
+    inches = arr[1].to_f
+    height = ((feet / 3.281) + (inches / 39.37))
+    return height
+end
+```
+
+**Calculate BMI**
+
+```ruby
+def bmi_calculation(weight, height)
+    bmi_result = weight / (height**2)
+    return bmi_result.round(2)
+end
+```
 
