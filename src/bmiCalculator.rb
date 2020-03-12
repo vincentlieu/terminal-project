@@ -1,40 +1,41 @@
-# Provide a description of what BMI is x
-# Input user details (Name, Height, Weight)
-# Perform caculation to determine which category they fit into
-
-# Less than 18.5 =>	Underweight
-# 18.5–24.9	=> Healthy weight range
-# 25–29.9 => Overweight (pre-obesity)
-# 30-34.9 => Obese class I
-# 35.0–39.9 => Obese class II
-# 40+ => Obese class III
-
-# Colour code the categories (Yellow, Green, Orange, Red)
-
 require "tty-prompt"
 require "colorize"
 require "figlet"
 require "lolcat"
 require "terminal-table"
 
-weight_description = {
-    "Underweight" => "This may not be good for your health. There are many benefits of being a healthy weight. Visit your health professional to discuss these.",
-    "Healthy" => "This is generally good for your health. The challenge is to maintain that weight, and not put on weight as you get older. ",
-    "Overweight" => "This may not be good for your health. There are many benefits of moving towards a healthier weight, and even losing a small amount of weight can deliver major health benefits.",
-    "Obese Class I (Low risk)" => "This may not be good for your health. There are many benefits of moving towards a healthy weight and losing even a small amount of weight can bring health benefits. You may also benefit from more supervised guidance; talk with your health professional about how losing weight can improve your health and wellbeing.",
-    "Obese Class II (Moderate risk)" => "seriously get off the couch!",
-    "Obese Class III (High risk)" => "seek a medical professional!"
+$conversion_types = {
+    "cat_one" => {
+        "name" => "Underweight", 
+        "range" => "Less than 18.5", 
+        "description" => "This may not be good for your health. There are many benefits of being a healthy weight. Visit your health professional to discuss these."
+    },
+    "cat_two" => {
+        "name" => "Healthy", 
+        "range" => "Between 18.5 – 24.9",
+        "description" => "This is generally good for your health. The challenge is to maintain that weight, and not put on weight as you get older."
+    },
+    "cat_three" => {
+        "name" => "Overweight",
+        "range" => "Between 25 – 29.9",
+        "description" => "This may not be good for your health. There are many benefits of moving towards a healthier weight, and even losing a small amount of weight can deliver major health benefits.",
+    },
+    "cat_four" => {
+        "name" => "Obese Class I (Low risk)",
+        "range" => "Between 30 - 34.9",
+        "description" => "This may not be good for your health. There are many benefits of moving towards a healthy weight and losing even a small amount of weight can bring health benefits. You may also benefit from more supervised guidance; talk with your health professional about how losing weight can improve your health and wellbeing."
+    },
+    "cat_five" => {
+        "name" => "Obese Class II (Moderate risk)",
+        "range" => "Between 35 - 39.9",
+        "description" => "This may not be good for your health. There are many benefits of moving towards a healthy weight and losing even a small amount of weight can bring health benefits. You may also benefit from more supervised guidance; talk with your health professional about how losing weight can improve your health and wellbeing."
+    },
+    "cat_six" => {
+        "name" => "Obese Class III (High risk)",
+        "range" => "Above 40",
+        "description" => "his may not be good for your health. There are many benefits of moving towards a healthy weight and losing even a small amount of weight can bring health benefits. You may also benefit from more supervised guidance; talk with your health professional about how losing weight can improve your health and wellbeing."
     }
-
-#Create prompts for user input 
-def prompt()
-    prompt = TTY::Prompt.new
-end
-
-#Title using Figlet and Lolcat
-def title()
-    system "echo BMI Calculator | figlet -f big.flf | lolcat "
-end
+}
 
 #Introduction - Description of the application
 def welcome_msg()
@@ -42,33 +43,33 @@ def welcome_msg()
     "DESCRIPTION:".colorize(:red),
     "Body Mass Index(BMI) is a measurement of body fat based on height and weight that applies to men and women aged 18 and above.",
     "It is a screening tool used to indiciate whether an individual is under weight, heathly, over weight or obese.",
-    ""
+    "",
+    "Below you can find the weight categories and their respective ranges:"
     ].join("\n") + "\n"
     return welcoming_msg
 end
 
 def display_bmi_table()
     rows = []
-    rows << ["Underweight", "Less than 18.5"]
-    rows << ["Healthy", "Between 18.5 – 24.9"]
-    rows << ["Overweight", "Between 25–29.9"]
-    rows << ["Obese Class I (Low risk)", "Between 30-34.9"]
-    rows << ["Obese Class II (Moderate risk)", "Between 35.0–39.9"]
-    rows << ["Obese Class III (High risk)", "Above 40"]
-    table = Terminal::Table.new :rows => rows
-    table = Terminal::Table.new :headings => ['Category'.colorize(:red), 'Ranges'.colorize(:red)], :rows => rows
-
+    $conversion_types.each do |key, value|
+        rows << [value["name"], value["range"]]
+    end
+    
+    Terminal::Table.new :rows => rows
+    Terminal::Table.new :headings => ['Category'.colorize(:red), 'Ranges'.colorize(:red)], :rows => rows
 end
 
 #Gather user details
-def questionaire(question)
-    print question
-    return gets.chomp()
+def prompt_questionaire(question)
+    TTY::Prompt.new.ask(question) do |q|
+        q.validate(/[0-9\/.]/)
+        q.messages[:valid?] = "Invalid input. Please enter numeric values"
+    end
 end
 
 #Convert pounds to kilograms
 def pounds_to_kg(i_weight)
-    weight = (i_weight / 2.205)
+    weight = (i_weight.to_f / 2.205)
     return weight
 end
 
@@ -83,56 +84,82 @@ end
 
 #Calculate BMI using metric system
 def bmi_calculation(weight, height)
-    bmi_result = weight / (height**2)
-    return bmi_result.round(2)
+    result = weight.to_f / (height.to_f**2)
+    return result.round(2)
 end
 
 #Display selection list (Imperial/Metric) to user & saves selection
 def select_conversion_type()
-    conversion_type = prompt.select("Choose your unit of conversion:", %w(Imperial Metric))
+    conversion_type = TTY::Prompt.new.select("Choose your unit of conversion:", %w(Imperial Metric))
     return conversion_type
 end
 
-#Return weight category based on BMI calculation and output value from weight_description array
+#Match BMI score to a key in the hash
 def weight_category(bmi_result)
     if bmi_result < 18.5
-        return category = "Underweight"
+        return "cat_one"
     elsif bmi_result >= 18.5 && bmi_result < 25
-        return category = "Healthy"
+        return "cat_two"
     elsif bmi_result >= 25 && bmi_result < 30
-        return category = "Overweight"  
+        return "cat_three"  
     elsif bmi_result >= 30 && bmi_result < 35
-        return category = "Obese Class I (Low risk)"  
+        return "cat_four" 
     elsif bmi_result >= 35 && bmi_result < 40
-        return category = "Obese Class II (Moderate risk)"   
+        return "cat_five"  
     else
-        return category = "Obese Class III (High risk)"    
+        return "cat_six"    
     end
 end
 
-def result_msg(name, bmi_result, bmi_category, description)
+def find_cat_name(category)
+    $conversion_types.each do |key, value|
+        if category == key
+            return value["name"]
+        end
+    end
+end
+
+def find_cat_range(category)
+    $conversion_types.each do |key, value|
+        if category == key
+            return value["range"]
+        end
+    end
+end
+
+def find_cat_desc(category)
+    $conversion_types.each do |key, value|
+        if category == key
+            return value["description"]
+        end
+    end
+end
+
+def result_msg(name, bmi_result, category)
     results_msg = [
     "",
     "Hi #{name},",
     "", 
     "RESULTS".colorize(:red),
     "Score: ".colorize(:red) + "#{bmi_result}",
-    "Category: ".colorize(:red) +"#{bmi_category}",
-    "Description:".colorize(:red),
-    "#{description}",
+    "Category: ".colorize(:red) +"#{find_cat_name(category)}",
+    "Range: ".colorize(:red) + "#{find_cat_range(category)}",
+    "Description: ".colorize(:red),
+    "#{find_cat_desc(category)}",
     ""
     ].join("\n") + "\n"
     return results_msg
 end
 
-title()
+system "echo BMI Calculator | figlet -f big.flf | lolcat "
+
 puts welcome_msg()
 puts display_bmi_table()
 
-name = prompt.ask("What's your name?:") do |q|
+name = TTY::Prompt.new.ask("What's your name?:") do |q|
     q.validate(/[a-zA-Z\/]/)
     q.messages[:valid?] = 'Invalid email address'
-    end
+end
 
 replay = true
 
@@ -141,12 +168,12 @@ while replay == true
 selected_conversion = select_conversion_type()
 
     if selected_conversion == "Imperial"
-        i_weight = questionaire("Enter your weight in pounds(lbs): ").to_f 
+        i_weight = prompt_questionaire("Enter your weight in pounds (lbs): ")
         weight = pounds_to_kg(i_weight)
         
-        i_height = prompt.ask("Enter your height in feet and inches (e.g. 6'1): ") do |q|
+        i_height = TTY::Prompt.new.ask("Enter your height in feet and inches (e.g. 6'1): ") do |q|
             q.validate(/[0-9\/]'[0-9\/]/)
-            q.messages[:valid?] = "Invalid input. Please enter height as feet and inches (e.g. 6'1)"
+            q.messages[:valid?] = "Invalid input. Please enter numeric values in the following format (e.g. 6'1)"
         end
 
         height = ft_inch_to_m(i_height)
@@ -156,26 +183,19 @@ selected_conversion = select_conversion_type()
         #     i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
         # end     
     else
-        m_weight = questionaire("Enter your weight in kilograms(kg): ").to_f
-        m_height = questionaire("Enter your height in metres(m): ").to_f
+        m_weight = prompt_questionaire("Enter your weight in kilograms (kg): ")
         weight = m_weight
+
+        m_height = prompt_questionaire("Enter your height in metres (m): ")
         height = m_height
     end
 
 bmi_result = bmi_calculation(weight, height)
-bmi_category = weight_category(bmi_result)
+category = weight_category(bmi_result)
 
-keys = weight_description.keys()
+puts result_msg(name, bmi_result, category)
 
-for key in keys
-    if bmi_category == key
-        description = weight_description[key]
-    end
-end
-
-puts result_msg(name, bmi_result, bmi_category, description)
-
-calc_again = prompt.select("What would you like to do?", %w(Recalculate Exit))
+calc_again = TTY::Prompt.new.select("What would you like to do?", %w(Recalculate Exit))
 
 if calc_again == "Recalculate"
     replay = true
