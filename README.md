@@ -26,9 +26,9 @@ The purpose of this application is to provide a risk assessment screening tool t
 
 ---
 
-**Process Flow**
+**Process flow**
 
-1.  Enter a user's name
+1. Enter a user's name
 
 2. Select a system of measurement (Imperial or Metric)
 
@@ -95,18 +95,19 @@ For special cases such as - Enter your height in feet and inches; the applicatio
 
 ![](/docs/BMI_control_flow_diagram.png)
 
+---
 
-**Project duration:** 10/02/2020 - 13/02/2020
+**Project duration** 
+10/02/2020 - 13/02/2020
 
 **Project management tool:**
-
-**URL:** https://trello.com/invite/b/57OCByeL/9ecfcaf1ceadcc5c762ee5a004550f9c/terminal-application-bmi-calculator
-
 Trello is a project management tool used to track the progress in developing the BMI terminal application. It consists of three statuses (To Do, In Progress and Done) and each task on the board are marked as:
 
 1. Task - Items that don't directly impact the application
 2. MVP - Items that are required for the core functionality of the application
 3. Enhancements - Items that improve the consistency or usability of the application
+
+**URL:** https://trello.com/invite/b/57OCByeL/9ecfcaf1ceadcc5c762ee5a004550f9c/terminal-application-bmi-calculator
 
 **1. Unit of measurement option (Selector)**
 
