@@ -69,7 +69,7 @@ Before using this application, the user will need to have access to a Windows or
 
 **Control Diagram**
 
-![](/Users/vincentlieu/Documents/CoderAcademy/terminal_app/docs/BMI_control_flow_diagram.png)
+![](/docs/BMI_control_flow_diagram.png)
 
 
 
