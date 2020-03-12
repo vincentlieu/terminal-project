@@ -4,7 +4,7 @@ require "figlet"
 require "lolcat"
 require "terminal-table"
 
-$conversion_types = {
+$weight_categories_list = {
     "cat_one" => {
         "name" => "Underweight", 
         "range" => "Less than 18.5", 
@@ -51,7 +51,7 @@ end
 
 def display_bmi_table()
     rows = []
-    $conversion_types.each do |key, value|
+    $weight_categories_list.each do |key, value|
         rows << [value["name"], value["range"]]
     end
     
@@ -88,12 +88,6 @@ def bmi_calculation(weight, height)
     return result.round(2)
 end
 
-#Display selection list (Imperial/Metric) to user & saves selection
-def select_conversion_type()
-    conversion_type = TTY::Prompt.new.select("Choose your unit of conversion:", %w(Imperial Metric))
-    return conversion_type
-end
-
 #Match BMI score to a key in the hash
 def weight_category(bmi_result)
     if bmi_result < 18.5
@@ -112,7 +106,7 @@ def weight_category(bmi_result)
 end
 
 def find_cat_name(category)
-    $conversion_types.each do |key, value|
+    $weight_categories_list.each do |key, value|
         if category == key
             return value["name"]
         end
@@ -120,7 +114,7 @@ def find_cat_name(category)
 end
 
 def find_cat_range(category)
-    $conversion_types.each do |key, value|
+    $weight_categories_list.each do |key, value|
         if category == key
             return value["range"]
         end
@@ -128,7 +122,7 @@ def find_cat_range(category)
 end
 
 def find_cat_desc(category)
-    $conversion_types.each do |key, value|
+    $weight_categories_list.each do |key, value|
         if category == key
             return value["description"]
         end
@@ -165,9 +159,10 @@ replay = true
 
 while replay == true
 
-selected_conversion = select_conversion_type()
+#Display selection list (Imperial/Metric) to user to drive the flow of the application
+conversion_type = TTY::Prompt.new.select("Choose your unit of conversion:", %w(Imperial Metric))
 
-    if selected_conversion == "Imperial"
+    if conversion_type == "Imperial"
         i_weight = prompt_questionaire("Enter your weight in pounds (lbs): ")
         weight = pounds_to_kg(i_weight)
         
@@ -175,7 +170,6 @@ selected_conversion = select_conversion_type()
             q.validate(/[0-9\/]'[0-9\/]/)
             q.messages[:valid?] = "Invalid input. Please enter numeric values in the following format (e.g. 6'1)"
         end
-
         height = ft_inch_to_m(i_height)
         #Error handle format for feet and inches
         # while i_height.include?("'") == false
@@ -183,11 +177,9 @@ selected_conversion = select_conversion_type()
         #     i_height = questionaire("Enter your height in feet and inches (e.g. 6'1): ")
         # end     
     else
-        m_weight = prompt_questionaire("Enter your weight in kilograms (kg): ")
-        weight = m_weight
+        weight = prompt_questionaire("Enter your weight in kilograms (kg): ")
 
-        m_height = prompt_questionaire("Enter your height in metres (m): ")
-        height = m_height
+        height = prompt_questionaire("Enter your height in metres (m): ")
     end
 
 bmi_result = bmi_calculation(weight, height)
