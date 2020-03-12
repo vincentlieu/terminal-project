@@ -42,7 +42,7 @@ def welcome_msg()
     welcoming_msg = [ 
     "DESCRIPTION:".colorize(:red),
     "Body Mass Index(BMI) is a measurement of body fat based on height and weight that applies to men and women aged 18 and above.",
-    "It is a screening tool used to indiciate whether an individual is under weight, heathly, over weight or obese.",
+    "It is a screening tool used to indicate whether an individual is under weight, heathly, over weight or obese.",
     "",
     "Below you can find the weight categories and their respective ranges:"
     ].join("\n") + "\n"
@@ -158,7 +158,7 @@ puts display_bmi_table()
 
 name = TTY::Prompt.new.ask("What's your name?:") do |q|
     q.validate(/[a-zA-Z\/]/)
-    q.messages[:valid?] = 'Invalid email address'
+    q.messages[:valid?] = 'Invalid name. Please re-enter using alphabetical letters.'
 end
 
 replay = true
