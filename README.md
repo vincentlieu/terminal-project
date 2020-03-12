@@ -72,33 +72,58 @@ Before using this application, the user will need to have access to a Windows or
 ![](/docs/BMI_control_flow_diagram.png)
 
 
-**Implementation**
+**Project duration:**10/02/2020 - 13/02/2020
 
-**Unit of measurement option (Selector)**
+**Project management tool:**
+
+**URL:** https://trello.com/invite/b/57OCByeL/9ecfcaf1ceadcc5c762ee5a004550f9c/terminal-application-bmi-calculator
+
+Trello is a project management tool used to track the progress in developing the BMI terminal application. It consists of three statuses (To Do, In Progress and Done) and each task on the board are marked as:
+
+1. Task - Items that don't directly impact the application
+2. MVP - Items that are required for the core functionality of the application
+3. Enhancements - Items that improve the consistency or usability of the application
+
+**1. Unit of measurement option (Selector)**
 
 This feature was implemented through the using IF and ELSE statements complimented by the use of the Ruby gem - TTY-Prompt, which allows the user to select their preferred measurement system - Imperial or Metric, in turn this will drive what unit of measurement is required by the user. <br />When the user selects either Imperial or Metric - it will be stored in a variable conversion_type. Conditioning is then implemented to determine whether the conversion_type matches either Imperial or Metric. <br />If conversion_type == "Imperial" the application will the proceed to prompt the user with their weight in pounds (lbs) and height in feet (ft) and inches(in). Otherwise prompt the user to enter their weight in kilograms (kgs) and metres (m).
 
 1. [x] define a method to initialise TTY-prompt
+
 2. [x] define a variable to store user selection 
+
 3. [x] define a method to drive what unit of measurement to prompt the user after selecting conversion type
+
 4. [x] define a method to store and validate user values for weight using the imperial system
+
 5. [x] define a method to store and validate user values for height using the imperial system
+
 6. [x] define a method to store and validate user values for height and weight using metric  system 
+
 7. [x] define a method to allow the user to enter in a feet and inches (5'1) 
+
    *Enhancement: (12/02/20) - to have a better user experience for inputting height*
 
-**Body Mass Index Calculation**
+**2. Body Mass Index Calculation**
 
 This feature was implemented by creating a method to calculate BMI by passing the variables weight and height. Before calculating the BMI score; if the user has selected the imperial system - there are methods defined to convert pounds to kg and feet and inches to metres. Otherwise pass the entered values for the metric system as the weight and height variable to perform the BMI calculation. 
 
 1. [x] define a method to convert pounds to kilograms
+
 2. [x] define a unique method to calculate under the imperial system 
-   *Dropped: (12/02/20) - removed two forms of calculation.*
+
+   *Removed: (12/02/20) - removed two forms of calculation.*
+
 3. [x] define a method to convert feet and inches to metres
+
    *Enhancement: (12/02/20) - convert imperial system to metric system to unify the BMI calculation*
+
 4. [x] define a unique method to calculate under the metric system 
+
    *Modified: (12/02/20) - this is now the only method used to perform the calculation*
+
 5. [x] define a method to split the syntax of feet and inches into an array and perform calculation 
+
    *Enhancement: (12/02/20) - logic built to compliment item 3*
 
 **Convert pounds to kilograms**
@@ -130,4 +155,24 @@ def bmi_calculation(weight, height)
     return bmi_result.round(2)
 end
 ```
+
+**3. Weight category specification**
+
+This feature was implemented by introducing a hash to store the weight categories descriptions based on the score retrieved the from BMI calculation. An IF and ELSE statement was used to determine what weight category the user falls into. For example; if the BMI score is between the ranges of 0-18.4 then the category assigned is 'Underweight'. Using this as a key; it will then pass the description in the output to the user. In addition using the Ruby gem terminal-table outputs table for each category their respective ranges.
+
+1. [x] define a method to determine which weight category based on BMI score
+2. [x] define a hash (key and value) to store the weight category description 
+3. [x] define a method to search the hash for a specific value via loop using a key 
+4. [x] defne a method to generate a table to indicate to the user the various weight categories and ranges
+5. [x] define a method to output the results to the user through string interpolation
+6. [ ] refactor the hash to include weight category name and ranges
+7. [ ] define a method to generate table rows based on the hash
+
+**4. Re-calculate**
+
+This feature was implemented using an IF and ELSE statement complimented by the Ruby gem - TTY-prompt. This allows the user to select whether they would like to exit the application or re-calculate their BMI. When the user selects re-calculate it will set the variable replay to TRUE, hence prompting the user back to the beginning of the loop for the user to select which unit conversion system they would like to use; otherwise it will set the replay variable to FALSE and terminate the application.
+
+1. [x] define a method to initialise TTY-prompt
+2. [x] define a variable to store user selection 
+3. [x] define a method to set the variable to either terminate or continue the loop
 
