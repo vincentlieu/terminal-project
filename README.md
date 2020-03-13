@@ -97,6 +97,12 @@ For special cases such as - Enter your height in feet and inches; the applicatio
 
 ---
 
+**Test Cases**
+
+ [Test_cases.xlsx](docs/Test_cases.xlsx)
+
+---
+
 **Project duration** 
 10/02/2020 - 13/02/2020
 
@@ -186,12 +192,22 @@ end
 This feature was implemented by introducing a hash to store the weight categories descriptions based on the score retrieved the from BMI calculation. An IF and ELSE statement was used to determine what weight category the user falls into. For example; if the BMI score is between the ranges of 0-18.4 then the category assigned is 'Underweight'. Using this as a key; it will then pass the description in the output to the user. In addition using the Ruby gem terminal-table outputs table for each category their respective ranges.
 
 1. [x] define a method to determine which weight category based on BMI score
+
 2. [x] define a hash (key and value) to store the weight category description 
+
 3. [x] define a method to search the hash for a specific value via loop using a key 
+
 4. [x] defne a method to generate a table to indicate to the user the various weight categories and ranges
+
 5. [x] define a method to output the results to the user through string interpolation
-6. [ ] refactor the hash to include weight category name and ranges
-7. [ ] define a method to generate table rows based on the hash
+
+6. [x ] refactor the hash to include weight category name and ranges
+
+   *Enhancement: (13/02/20) - weight category hash now includes names, ranges and description*
+
+7. [x ] define a method to generate table rows based on the hash
+
+   *Enhancement: (13/02/20) - weight table display is now generated via a loop according to the amount of keys in the hash*
 
 **4. Re-calculate**
 
@@ -252,4 +268,6 @@ gem list
 1. Clone the repository: https://github.com/vincentlieu/terminal-project.git
 2. Open your preferred terminal application and navigate into the folder /src where the bmiCalculator.rb file resides
 3. Type in the command "ruby bmiCalculator.rb" and press Enter to begin executing the application
+
+
 

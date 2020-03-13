@@ -3,6 +3,7 @@ require "colorize"
 require "figlet"
 require "lolcat"
 require "terminal-table"
+require "tty-box"
 
 $weight_categories_list = {
     "cat_one" => {
@@ -105,6 +106,7 @@ def weight_category(bmi_result)
     end
 end
 
+#Method to return category name based on bmi score
 def find_cat_name(category)
     $weight_categories_list.each do |key, value|
         if category == key
@@ -113,6 +115,7 @@ def find_cat_name(category)
     end
 end
 
+#Method to find category range based on bmi score
 def find_cat_range(category)
     $weight_categories_list.each do |key, value|
         if category == key
@@ -121,6 +124,7 @@ def find_cat_range(category)
     end
 end
 
+#Method to find description based on bmi score
 def find_cat_desc(category)
     $weight_categories_list.each do |key, value|
         if category == key
@@ -129,6 +133,7 @@ def find_cat_desc(category)
     end
 end
 
+#Method for the message outputted to the user
 def result_msg(name, bmi_result, category)
     results_msg = [
     "",
@@ -145,8 +150,7 @@ def result_msg(name, bmi_result, category)
     return results_msg
 end
 
-system "echo BMI Calculator | figlet -f big.flf | lolcat "
-
+system "echo Terminal BMI | figlet -f big.flf | lolcat "
 puts welcome_msg()
 puts display_bmi_table()
 
@@ -159,6 +163,7 @@ replay = true
 
 while replay == true
 
+system("clear")
 #Display selection list (Imperial/Metric) to user to drive the flow of the application
 conversion_type = TTY::Prompt.new.select("Choose your unit of conversion:", %w(Imperial Metric))
 
@@ -185,7 +190,10 @@ conversion_type = TTY::Prompt.new.select("Choose your unit of conversion:", %w(I
 bmi_result = bmi_calculation(weight, height)
 category = weight_category(bmi_result)
 
+puts display_bmi_table()
+
 puts result_msg(name, bmi_result, category)
+
 
 calc_again = TTY::Prompt.new.select("What would you like to do?", %w(Recalculate Exit))
 
@@ -193,23 +201,6 @@ if calc_again == "Recalculate"
     replay = true
 else
     replay = false
+    system("clear")
 end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
