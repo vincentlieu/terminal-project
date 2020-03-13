@@ -113,7 +113,7 @@ Trello is a project management tool used to track the progress in developing the
 2. MVP - Items that are required for the core functionality of the application
 3. Enhancements - Items that improve the consistency or usability of the application
 
-**URL:** https://trello.com/invite/b/57OCByeL/9ecfcaf1ceadcc5c762ee5a004550f9c/terminal-application-bmi-calculator
+**URL:** https://trello.com/b/57OCByeL/terminal-application-bmi-calculator
 
 **1. Unit of measurement option (Selector)**
 
